@@ -13,6 +13,9 @@ let imgThree = document.getElementById('img-3');
 
 let resultsBttn = document.getElementById('results-bttn');
 let resultsList = document.getElementById('results-container');
+// ********* CANVAS ELEM FOR CHART ***********
+
+let canvasElem = document.getElementById('Chart');
 
 
 // *************** CONSTRUCTOR FUNCTION *************
@@ -41,6 +44,7 @@ function renderImg() {
     // ************** THIS REASSIGNS TWO OF THE VARIABLES **************
     imgOneIndex = randomIndex();
     imgTwoIndex = randomIndex();
+    imgThreeIndex = randomIndex();
   }
 
   imgOne.src = productArray[imgOneIndex].img;
@@ -57,6 +61,51 @@ function renderImg() {
   productArray[imgTwoIndex].views++;
   productArray[imgThreeIndex].views++;
 }
+
+function renderChart() {
+  let productNames = [];
+  let productVotes = [];
+  let productViews = [];
+
+  for (let i = 0; i < productArray.length; i++) {
+    productNames.push(productArray[i].name);
+    productVotes.push(productArray[i].votes);
+    productViews.push(productArray[i].views);
+  }
+
+
+
+
+  let chartObj = {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: '# of Votes',
+        data: productVotes,
+        borderWidth: 1,
+        backgroundcolor: 'red',
+      },
+      {
+        label: '# of Views',
+        data: productVotes,
+        borderWidth: 1,
+        backgroundcolor: 'blue',
+      },
+
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+  new Chart(canvasElem, chartObj);
+}
+
 
 
 // ************* EVENT HANDLERS ****************
@@ -83,13 +132,16 @@ function handleClick(event) {
 
 function handleResults() {
   if (votingRounds === 0) {
-    for (let i = 0; i < productArray.length; i++) {
-      let listElem = document.createElement('list');
-      listElem.innerText = `${productArray[i].name} had ${productArray[i].votes} votes and was seen ${productArray[i].views} times.`;
-      resultsList.appendChild(listElem);
-    }
-    resultsList.removeEventListener('click', handleResults);
+    renderChart();
   }
+
+  //   for (let i = 0; i < productArray.length; i++) {
+  //     let listElem = document.createElement('list');
+  //     listElem.innerText = `${productArray[i].name} had ${productArray[i].votes} votes and was seen ${productArray[i].views} times.`;
+  //     resultsList.appendChild(listElem);
+  //   }
+  //   resultsList.removeEventListener('click', handleResults);
+  // }
 }
 
 

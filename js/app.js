@@ -40,7 +40,9 @@ function renderImg() {
   let imgTwoIndex = randomIndex();
   let imgThreeIndex = randomIndex();
   //  ******** VALIDATION TO MAKE SURE NUMBERS ARE UNIQUE *********************
+
   while (imgOneIndex === imgTwoIndex || imgOneIndex === imgThreeIndex || imgTwoIndex === imgThreeIndex) {
+    
     // ************** THIS REASSIGNS TWO OF THE VARIABLES **************
     imgOneIndex = randomIndex();
     imgTwoIndex = randomIndex();
